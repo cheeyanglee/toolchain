@@ -113,3 +113,27 @@ This repo provides a toolchain container which sets up cross compilation environ
       ```
       docker run --rm -it -v sdkvolume:/sdk <repo>/toolchain -v myvolume:/workdir <repo>/toolchain --cmd "./configure \$CONFIGURE_FLAGS && make"
       ```
+
+
+# Known Error
+
+  * **Windows/Mac**
+
+    If you see this error :
+
+      ```
+      Refusing to use a gid of 0
+      Traceback (most recent call last):
+        File "/usr/bin/usersetup.py", line 62, in <module>
+          subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
+        File "/usr/lib/python2.7/subprocess.py", line 541, in check_call
+          raise CalledProcessError(retcode, cmd)
+      subprocess.CalledProcessError: Command '['sudo', 'restrict_groupadd.sh', '0', 'sdkuser']' returned non-zero exit status 1
+      ```
+      
+    you can run the command below to fix it.
+
+      ```
+      docker run -it --rm -v <sdk volume>:/sdk  busybox chown -R 1000:1000 /sdk 
+      docker run -it --rm -v <workdir volume>:/workdir busybox chown -R 1000:1000 /workdir
+      ```
