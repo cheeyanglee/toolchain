@@ -32,8 +32,9 @@ COPY sudoers.usersetup /etc/
 # as the workspace. 70 is an arbitrary *low* unused uid on debian.
 RUN userdel -r yoctouser && \
     groupadd -g 70 usersetup && \
-    useradd -N -m -u 70 -g 70 usersetup && \
-    apt-get -y install curl sudo && \
+    useradd -N -m -u 70 -g 70 usersetup
+RUN apt-get update
+RUN apt-get -y install curl sudo && \
     echo "#include /etc/sudoers.usersetup" >> /etc/sudoers && \
     chmod 755 /usr/bin/usersetup.py \
         /usr/bin/toolchain-launch.py \
