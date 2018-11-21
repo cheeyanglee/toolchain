@@ -149,10 +149,10 @@ try:
     else:
         urlarg = ""
 
-    cmd = """usersetup.py --username=sdkuser --workdir={toolchain} --uid=1000 --gid=1000 """
-    cmd = cmd.format(toolchain=args.toolchain).split()
+    cmd = """usersetup.py --username=sdkuser --workdir={toolchain} --uid=1000 --gid=1000 toolchain-launch.py """\
+          """--workdir={workdir} --toolchain={toolchain} -- {cmdarg}"""
+    cmd = cmd.format(workdir=args.workdir, idargs=idargs, toolchain=args.toolchain, cmdarg=args.cmd).split()
     os.execvp(cmd[0], cmd)
-
 
     cmd = """usersetup.py --username=sdkuser --workdir={workdir} {idargs} toolchain-launch.py """\
           """--workdir={workdir} --toolchain={toolchain} -- {cmdarg}"""
